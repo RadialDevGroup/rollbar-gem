@@ -15,7 +15,12 @@ require 'rollbar/configuration'
 require 'rollbar/logger_proxy'
 require 'rollbar/exception_reporter'
 require 'rollbar/util'
-require 'rollbar/railtie' rescue
+
+begin
+  require 'rollbar/railtie'
+rescue LoadError
+end
+
 require 'rollbar/delay/girl_friday'
 require 'rollbar/delay/thread'
 require 'rollbar/truncation'

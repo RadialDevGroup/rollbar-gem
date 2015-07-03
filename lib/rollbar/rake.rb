@@ -6,7 +6,11 @@ module Rollbar
       skip_patch && return unless patch?
 
       ::Rake::Application.class_eval do
-        alias_method :orig_display_error_message, :display_error_message
+        if respond_to? :display_error_message
+          alias_method :orig_display_error_message, :display_error_message
+        else
+          def orig_display_error_message; end
+        end
 
         def display_error_message(ex)
           Rollbar.error(ex, :use_exception_level_filters => true)
